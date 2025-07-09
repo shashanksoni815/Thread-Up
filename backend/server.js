@@ -3,6 +3,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import postRoutes from "./routes/posts.routes.js"
+import userRoutes from "./routes/user.routes.js"
+// import userR
 
 dotenv.config();
 
@@ -12,6 +14,7 @@ app.use(cors());
 
 app.use(express.json());
 app.use(postRoutes);
+app.use(userRoutes)
 
 const start = async () => {
     const connectDB = await mongoose.connect("mongodb+srv://shashanksoni815:2a9ghem8XEpalNog@threads.zk61tyk.mongodb.net/?retryWrites=true&w=majority&appName=threads")
