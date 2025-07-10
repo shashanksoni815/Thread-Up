@@ -15,11 +15,10 @@ dotenv.config({
 
 const app = express();
 
-app.use(cors());
-
 app.use(express.json());
+app.use(cors());
 app.use(postRoutes);
-app.use(userRoutes)
+app.use(userRoutes);
 
 const start = async () => {
     // const connectDB = await mongoose.connect(`${process.env.MONGODB_URI}`)
@@ -28,15 +27,15 @@ const start = async () => {
     //     console.log("Server is running on port 9090")
     // })
     try {
-        console.log("🌐 Connecting to MongoDB...");
+        console.log("Connecting to MongoDB...");
         await mongoose.connect(process.env.MONGODB_URI);
-        console.log("✅ Connected to MongoDB");
+        console.log("Connected to MongoDB");
 
         app.listen(9090, () => {
-            console.log("🚀 Server is running on port 9090");
+            console.log("Server is running on port 9090");
         });
     } catch (error) {
-        console.error("❌ MongoDB connection error:", error.message);
+        console.error("MongoDB connection error:", error.message);
         process.exit(1);
     }
 }
