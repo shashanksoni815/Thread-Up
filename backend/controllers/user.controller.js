@@ -1,7 +1,7 @@
 import Profile from "../models/Profile.model.js";
 import User from "../models/user.model.js";
-
-import bcrypt from "bcrypt";
+import bcrypt from "bcrypt"
+// import bcrypt from "bcrypt";
 
 export const register = async (req, res) => {
     try{
