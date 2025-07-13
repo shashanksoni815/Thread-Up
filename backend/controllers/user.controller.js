@@ -151,6 +151,6 @@ export const updateUserProfile = async (req, res) => {
     const existingUser = await User.findOne({$or: [{userName}, {email}]})
     
   } catch (error) {
-    return res.status(500).json({message: error.message})
+    return res.status(500).json({message: error.message});
   }
 }
