@@ -1,6 +1,6 @@
 import {Router} from "express";
 import { activeCheck } from "../controllers/post.controller.js";
-import { register, login, uploadProfilePicture } from "../controllers/user.controller.js";
+import { register, login, uploadProfilePicture, updateUserProfile } from "../controllers/user.controller.js";
 import multer from "multer";
 
 const router = Router();
@@ -21,5 +21,6 @@ router.route("/update_profile_picture")
 
 router.route('/register').post(register);
 router.route('/login').post(login);
+router.route('/user_update').post(updateUserProfile)
 
 export default router;
