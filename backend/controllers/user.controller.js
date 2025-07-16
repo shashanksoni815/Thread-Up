@@ -150,7 +150,30 @@ export const updateUserProfile = async (req, res) => {
 
     const existingUser = await User.findOne({$or: [{userName}, {email}]})
     
+    if(existingUser) {
+      if(existingUser || String(existingUser._id) !== String(user._id)) {
+        return res.status(400).json({message: "User already exists"})
+      }
+    }
+
+    Object.assign(user, newUserData);
+
+    await user.save();
+    return res.json({message: "User Updated"})
+
   } catch (error) {
     return res.status(500).json({message: error.message});
+  }
+}
+
+export const getUserAndProfile = async(req, res) => {
+
+  try {
+    const {token} = req.body;
+
+    const user = await User.findOne({token: token});
+    
+  } catch (error) {
+    return res.status(500).json({message: error.message})
   }
 }
