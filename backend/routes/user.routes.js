@@ -1,5 +1,5 @@
 import {Router} from "express";
-import { activeCheck } from "../controllers/post.controller.js";
+// import { activeCheck } from "../controllers/post.controller.js";
 import { register, login, uploadProfilePicture, updateUserProfile, getUserAndProfile, updateProfileData } from "../controllers/user.controller.js";
 import multer from "multer";
 
@@ -24,5 +24,6 @@ router.route('/login').post(login);
 router.route('/user_update').post(updateUserProfile)
 router.route('/get_user_and_profile').get(getUserAndProfile);
 router.route('/update_profile_data').get(updateProfileData);
+router.route('/user/download_resume')
 
 export default router;

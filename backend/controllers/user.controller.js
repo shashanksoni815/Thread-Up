@@ -2,7 +2,29 @@ import Profile from "../models/Profile.model.js";
 import User from "../models/user.model.js";
 import bcrypt from "bcrypt"
 import crypto from "crypto"
+import PDFDocument from "pdfkit";
 // import bcrypt from "bcrypt";
+
+const convertUserDataToPDF = (userData) => {
+  const doc = new PDFDocument();
+
+  const outputPath = crypto.randomBytes(32).toString('hex') + '.pdf'
+  const stream = fs.createWriteStream('uploads/' + outputPath)
+
+  doc.pipe(stream);
+
+  doc.image("uploads/" + userData.userId.profilePicture, {width: 100, align: "center"});
+  doc.fontSize(14).text(`Name: ${userData.userId.name}`);
+  doc.fontSize(14).text(`Username: ${userData.userId.userName}`);
+  doc.fontSize(14).text(`Email: ${userData.userId.email}`);
+  doc.fontSize(14).text(`Bio: ${userData.bio}`);
+  doc.fontSize(14).text(`Current Position: ${userData.currentPosition}`);
+  doc.fontSize(14).text("Padt Work: ")
+  userData.pastwork.forEach((work, index) => {
+    doc.fontSize(14).text(`${index + 1}.$(work)`)
+  })
+
+}
 
 export const register = async (req, res) => {
     try{
@@ -211,4 +233,16 @@ export const updateProfileData = async (req, res) => {
   }
 }
 
+export const downloadProfile = async (req, res) => {
+  try {
+    const user_id = req.query.id;
 
+    const userProfile = await Profile.findOne({userId: user_id})
+    .populate('userId', 'name userName email profilePicture')
+
+    let a = await convertUserDataToPDF(userProfile);
+
+  } catch (error) {
+    return res.status(500).json({ message: error.message })
+  }
+}
