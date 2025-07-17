@@ -3,9 +3,10 @@ import User from "../models/user.model.js";
 import bcrypt from "bcrypt"
 import crypto from "crypto"
 import PDFDocument from "pdfkit";
+import ConnectionRequest from "../models/connections.models.js";
 // import bcrypt from "bcrypt";
 
-const convertUserDataToPDF = (userData) => {
+const convertUserDataToPDF = async (userData) => {
   const doc = new PDFDocument();
 
   const outputPath = crypto.randomBytes(32).toString('hex') + '.pdf'
@@ -18,11 +19,18 @@ const convertUserDataToPDF = (userData) => {
   doc.fontSize(14).text(`Username: ${userData.userId.userName}`);
   doc.fontSize(14).text(`Email: ${userData.userId.email}`);
   doc.fontSize(14).text(`Bio: ${userData.bio}`);
-  doc.fontSize(14).text(`Current Position: ${userData.currentPosition}`);
+  doc.fontSize(14).text(`Current Position: ${userData.currentPost}`);
+ 
   doc.fontSize(14).text("Padt Work: ")
   userData.pastwork.forEach((work, index) => {
-    doc.fontSize(14).text(`${index + 1}.$(work)`)
+    doc.fontSize(14).text(`Company Name: ${work.company}`);
+    doc.fontSize(14).text(`Position: ${work.position}`);
+    doc.fontSize(14).text(`Years: ${work.years}`);
   })
+
+  doc.end();
+
+  return outputPath;
 
 }
 
@@ -240,9 +248,53 @@ export const downloadProfile = async (req, res) => {
     const userProfile = await Profile.findOne({userId: user_id})
     .populate('userId', 'name userName email profilePicture')
 
-    let a = await convertUserDataToPDF(userProfile);
+    let outputPath = await convertUserDataToPDF(userProfile);
+
+    return res.json({"message" : outputPath})
 
   } catch (error) {
     return res.status(500).json({ message: error.message })
+  }
+}
+
+export const sendConnectRequest = async (req, res) => {
+  const {token, connectionId} = req.body;
+
+  try {
+
+    const user = await User.findOne({token: token})
+
+    if(!user) {
+      return res.status(404).json({message: "User not found"})
+    }
+    
+    const connectionUser = await User.findOne({_id: connectionId});
+    
+    if(!connectionUser) {
+      return res.status(404).json({message: "Connection User not found"})
+    }
+
+    const existingRequest = await ConnectionRequest.findOne(
+      {
+        userId: user._id,
+        connectionId: connectionUser._id
+      }
+    )
+
+    if(existingRequest) {
+      return res.status(400).json({message: "Existing request send"})
+    }
+
+    const request = new ConnectionRequest({
+      userId : user._id,
+      connectionId: connectionUser._id
+    })
+
+    await request.save();
+
+    return res.json({message: "Request Sent"});
+    
+  } catch (error) {
+    return res.status(500).json({message: error.message})
   }
 }
