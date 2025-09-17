@@ -30,7 +30,7 @@ const WorkSchema = new mongoose.Schema({
     }
 });
 
-const ProfileSchema = new mongooseSchema({
+const ProfileSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
