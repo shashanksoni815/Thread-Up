@@ -62,4 +62,14 @@ export const login = async (req, res) => {
     }
 }
 
+export const uploadProfilePicture = async(req, res) => {
+    const { token } = req.body;
+
+    try {
+        
+    } catch (error) {
+        return res.status(500).json({message: error.message})
+    }
+}
+
 // export default  {register};
