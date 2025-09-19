@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import crypto from "crypto";
 import PDFDocument from "pdfkit";
 import fs from "fs";
+import { use } from "react";
 
 const convertUserDataTOPDF = async (userData) => {
     const doc = new PDFDocument()
@@ -213,7 +214,13 @@ export const downloadProfile = async (req, res) => {
 
 export const sendConnectionRequest = async (req, res) => {
     try {
-        
+        const user = await User.findOne({token});
+
+        if(!user) return res.status(404).json({message: "User not found"})
+
+        const connectionUser = await User.findOne({ _id: connectionId });
+
+        if(!connectionUser) return res.status(404).json({message: "Connection User not found"})
 
 
     } catch (error) {
