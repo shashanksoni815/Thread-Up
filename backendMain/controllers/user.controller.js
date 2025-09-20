@@ -4,9 +4,8 @@ import bcrypt from "bcrypt";
 import crypto from "crypto";
 import PDFDocument from "pdfkit";
 import fs from "fs";
-import { use } from "react";
 import ConnectionRequest from "../models/connection.model.js";
-import { connection } from "mongoose";
+// import { connection } from "mongoose";
 
 const convertUserDataTOPDF = async (userData) => {
     const doc = new PDFDocument()
@@ -34,8 +33,6 @@ const convertUserDataTOPDF = async (userData) => {
     return outputPath;
 
 }
-
-
 
 export const register = async (req, res) => {
     try {
@@ -197,7 +194,6 @@ export const getAllUserProfile = async (req, res) => {
     }
 }
 
-
 export const downloadProfile = async (req, res) => {
     try {
         const user_id = req.query.id;
@@ -291,9 +287,9 @@ export const acceptConnectionRequest = async (req, res) => {
 
         if(!user) return res.status(404).json({message: "User not found"})
 
-        const connsction = await ConnectionRequest.find({ _id : requestId });
+        const connection = await ConnectionRequest.find({ _id : requestId });
 
-        if(!connsction) return res.status(404).json({ message: "Connection not found" });
+        if(!connection) return res.status(404).json({ message: "Connection not found" });
 
         if (action_type === "accept"){
             connection.status_accepted = true;
