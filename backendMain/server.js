@@ -4,15 +4,17 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import postRoute from "./routes/posts.routes.js"
 import userRoutes from "./routes/user.routes.js"
+import path from "path";
 
 dotenv.config({
     path: "../.env"
 });
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 app.use(postRoute);
 app.use(userRoutes)
 app.use(express.static("uploads"))
