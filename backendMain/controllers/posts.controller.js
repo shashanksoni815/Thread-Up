@@ -71,6 +71,21 @@ export const deletePost = async (req, res) => {
     }
 }
 
+export const get_comments_by_post = async (req, res) => {
+    try {
+        const { post_id } = req.body;
+
+        const post = await Post.findOne({ _id: post_id });
+
+        if( !post ) return res.status(404).json({message: "Post not found"})
+
+        return res.json({ comment: post.comments });
+
+    } catch (error) {
+        return res.status(500).json({message: error.message});
+    }
+}
+
 export const delete_comment_of_user = async (req, res) => {
     try {
        const { token, comment_id} = req.body;
@@ -93,5 +108,25 @@ export const delete_comment_of_user = async (req, res) => {
 
     } catch (error) {
         return res.status(500).json({ message: error.message })
+    }
+}
+
+export const incrementInLikes = async (req, res) => {
+    try {
+        const { post_id } = req.body
+
+        const post = await Post.findOne({ _id: post_id });
+
+        if(!post) return res.status(404).json({ message: "Post not found"})
+
+        post.likes = post.likes + 1;
+        
+        await post.save();
+
+        return res.json({ message: "Like Increased"});
+
+
+    } catch (error) {
+        return res.status(500).json({ message: error.message});
     }
 }
