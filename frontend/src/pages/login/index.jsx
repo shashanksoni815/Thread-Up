@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import styles from "./style.module.css";
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser, registerUser } from '@/config/redux/action/authAction';
+import { emptyMessage } from '@/config/redux/reducer/authReducer';
 
 const LoginComponent = () => {
 
@@ -20,14 +21,28 @@ const LoginComponent = () => {
 
   useEffect(() => {
     if(authState.loggedIn) {
-      // router.push("/dashboard")
+      router.push("/dashboard")
     }
   }, [authState.loggedIn])
+
+  useEffect(() => {
+    if(localStorage.getItem("token")) {
+      router.path("/dashboard")
+    }
+  })
+
+  useEffect(() => {
+    dispath(emptyMessage())
+  }, [userLoginMethod])
 
   const handleRegister = () => {
     console.log("Registering...");
     dispath(registerUser({ username, password, email, name }))
     
+  }
+
+  const handleLogin = () => {
+    dispath(loginUser({ password, email}))
   }
 
   return (
@@ -38,21 +53,23 @@ const LoginComponent = () => {
             <p className={styles.cardleft_heading} >{userLoginMethod ? "Sign In" : "Sign Up"}</p>
               <p style={{color: authState.isError ? "red": "green"}}  >{authState.message.message}</p>
             <div className={styles.inputContainers}>
-              <div className={styles.inputRow}>
+              
+              
+              {!userLoginMethod &&  <div className={styles.inputRow}>
                 <input onChange={(e) => setUsername(e.target.value)} className={styles.inputField} type="text" placeholder='Username' />
                 <input onChange={(e) => setName(e.target.value)} className={styles.inputField} type="text" placeholder='Name' />
 
-              </div>
+              </div>}
               <input onChange={(e) => setEmail(e.target.value)} className={styles.inputField} type="email" placeholder='Email' />
               <input onChange={(e) => setPassword(e.target.value)} className={styles.inputField} type="password" placeholder='Password' />
 
               <div  onClick={() => {
                 if(userLoginMethod) {
-
+                  handleLogin();
                 }else {
                   handleRegister();
                 }
-              }} className={styles.buttonWithOutline}>
+              }} style={{color: "black"}} className={styles.buttonWithOutline}>
                 <p>{userLoginMethod ? "Sign In" : "Sign Up"}</p>
               </div>
 
@@ -61,7 +78,14 @@ const LoginComponent = () => {
 
           </div>
           <div className={styles.cardContainer_right}>
-
+            
+              {userLoginMethod ? <p>Don't have an Account</p> : <p>Already Have an Account?</p>}
+              <div  onClick={() => {
+                setUserLoginMethod(!userLoginMethod)
+                }} style={{color: "black", textAlign:"center"}} className={styles.buttonWithOutline}>
+                <p>{userLoginMethod ? "Sign Up" : "Sign In"}</p>
+              </div>
+            
           </div>
         </div>
       </div>
