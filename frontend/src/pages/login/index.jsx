@@ -4,8 +4,11 @@ import styles from "./style.module.css";
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser, registerUser } from '@/config/redux/action/authAction';
 import { emptyMessage } from '@/config/redux/reducer/authReducer';
+import { useRouter } from 'next/router';
 
 const LoginComponent = () => {
+
+  const router = useRouter(); 
 
   const authState = useSelector( (state) => state.auth );
 
@@ -21,15 +24,17 @@ const LoginComponent = () => {
 
   useEffect(() => {
     if(authState.loggedIn) {
+      // router.push("/dashboard")
       router.push("/dashboard")
     }
   }, [authState.loggedIn])
 
   useEffect(() => {
     if(localStorage.getItem("token")) {
-      router.path("/dashboard")
+      router.push("/dashboard")
+
     }
-  })
+  }, [userLoginMethod])
 
   useEffect(() => {
     dispath(emptyMessage())
