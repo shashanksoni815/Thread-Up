@@ -1,0 +1,129 @@
+.scrollComponent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 1.2rem;
+    max-width: 90%;
+}
+
+.createPostContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* justify-content: space-between; */
+    height: 15svh;
+    width: 70%;
+    padding: 0.8rem;
+    gap: 2rem;
+    background-color: rgba(237, 246, 250, 0.986);
+    border-radius: 20px;
+    position: relative;
+}
+
+.userProfile {
+    border-radius: 100%;
+    height: 70%;
+    width: fit-content;
+}
+
+.createPostContainer > textarea {
+    width: 100%;
+}
+
+.textarea {
+    width: 80%;
+    height: 70%;
+    border: 1px solid black;
+    border-radius: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    padding-inline: 1.5rem;
+    padding-block: 0.8rem;
+    outline: none;
+}
+
+.fab {
+    background-color: darkturquoise;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+
+}
+
+.fab  svg {
+    width: fit-content;
+    height: 40px;
+}
+
+.uploadButton {
+    position: absolute;
+    right: 0;
+    bottom: -25%;
+    background: #a7adf5;
+    border-radius: 15px;
+    padding-inline: 1.2rem;
+    padding-block: 0.6rem;
+    cursor: pointer;
+}
+
+.singleCard{
+    width: 100%;
+    border-radius: 10px 10px 0px 0px;
+    border-bottom: 1px solid black;
+}
+
+.singleCard_profileContainer {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.2rem;
+    padding: 1.2rem;
+    padding-right: 1.2rem;
+}
+
+.singleCard_profileContainer > img {
+    width: 10%;
+    border-radius: 50%;
+}
+
+/* .userProfile {
+    width: 10%;
+    border-radius: 50%;
+} */
+
+.singleCard_img {
+    width: 100%;
+    padding-top: 0.6rem;
+    height: fit-content;
+    overflow: hidden;
+}
+
+.singleCard_img > img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+.optionsContainer {
+    display: flex;
+    height: 15%;
+    width: 100%;
+    justify-content: space-around;
+    gap: 2rem;
+    padding-block: 0.6rem;
+}
+
+.singleOption {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.singleOption > svg{
+    height: 100%;
+    width: 15%;
+    /* border: 1px solid blue; */
+}
+
