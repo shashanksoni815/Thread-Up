@@ -61,7 +61,7 @@ export const deletePost = async (req, res) => {
             return res.status(401).json({message: "Unauthorized"})
         }
 
-        await Post.deletePost({_id: post_id});
+        await Post.deleteOne({_id: post_id});
 
         return res.json({message: "Post deleted"})
 
@@ -119,6 +119,8 @@ export const incrementInLikes = async (req, res) => {
 
         if(!post) return res.status(404).json({ message: "Post not found"})
 
+        // if()
+        
         post.likes = post.likes + 1;
         
         await post.save();
