@@ -66,3 +66,19 @@ export const deletePost = createAsyncThunk(
         }
     }
 )
+
+export const incrementPostLike = createAsyncThunk(
+    "post/incrementPostLike",
+    async (post, thunkApi) => {
+        try {
+            const response = await clientServer.post(`/increment_post_like`, {
+                post_id: post.post_id
+            })
+
+            return thunkApi.fulfillWithValue(response.data);
+        } catch (error) {
+            return thunkApi.rejectWithValue(error.response.data)
+        }
+        
+    }
+)
